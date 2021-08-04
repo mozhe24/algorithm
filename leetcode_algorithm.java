@@ -510,7 +510,55 @@ class Solution{
 
 
 
-12、Top K 查找第K大的数字
+12、二叉树的锯齿形层序遍历
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> result = new LinkedList<>();
+        if (root == null) {
+            return result;
+        }
+
+        Queue<TreeNode> stack = new LinkedBlockingDeque<>();
+        boolean isOrderLeft = true;
+        stack.offer(root);
+        while(!stack.isEmpty()){
+            int size = stack.size();
+            Deque<Integer> temp = new LinkedList<>();
+            for (int i=0; i< size; i++){
+                TreeNode node = stack.poll();
+                if (isOrderLeft){
+                    temp.offerLast(node.val);
+                }else{
+                    temp.offerFirst(node.val);
+                }
+                if (node.left!=null){
+                    stack.offer(node.left);
+                }
+                if (node.right!=null){
+                    stack.offer(node.right);
+                }
+            }
+            isOrderLeft = !isOrderLeft;
+            result.add(new LinkedList<>(temp));
+        }
+        return result;
+    }
+}
 
 13、任意三个数相加为0
 class Solution {
